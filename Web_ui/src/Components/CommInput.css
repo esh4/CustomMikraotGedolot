@@ -1,0 +1,15 @@
+.suggestionsContainer{
+    background-color: azure;
+}
+
+.suggestionHighlighted{
+    background-color: beige;
+}
+
+.input{
+    background-color: firebrick;
+}
+
+.react-autosuggest__input {
+    background-color: green;
+}

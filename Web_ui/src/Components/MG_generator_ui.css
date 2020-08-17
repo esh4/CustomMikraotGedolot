@@ -1,0 +1,16 @@
+#form{
+    display: flex;
+}
+
+#bible-radio{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    width: 50%;
+}
+
+
+.books{
+    display: flex;
+    flex-direction: column;
+}

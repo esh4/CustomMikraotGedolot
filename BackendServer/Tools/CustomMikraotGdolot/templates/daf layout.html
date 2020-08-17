@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+
+<html lang="he" dir="rtl">
+<section id="cover-page">
+    <h1>Cover Page</h1>
+</section>
+
+{% for page in book %}
+<section class="page-header">
+    <h1> {{  page.book  }}</h1>
+    <h2> {{ page.chapter }}</h2>
+    <h3> {{ page.verse }}</h3>
+</section>
+
+<section class="page-body">
+    <div class="border">
+        <section class="main-content">
+            <p class="main-text">{{ page.content }}</p>
+            <p class="trans">{{ page.translation }}</p>
+        </section>
+        <section class="commentary-section">
+            {% for com in page.commentators%}
+            <div class="commentary">
+                <h1> {{com['name']}} </h1>
+                <div class="commentary-text">
+                    {% for c in com.text %}
+                    <p>{{  c  }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+    </div>
+</section>
+{% endfor %}
+
+</html>
