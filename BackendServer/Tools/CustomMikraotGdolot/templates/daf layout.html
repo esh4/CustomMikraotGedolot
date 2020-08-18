@@ -8,16 +8,15 @@
 
 {% for page in book %}
 <section class="page-header">
-    <h1> {{  page.book  }}  </h1>
-    <h2> {{ page.chapter }}</h2>
+    <h1> {{  page.book  }}  {{ page.chapter }}</h1>
 </section>
 
 <section class="page-body">
     <div class="border">
         <section class="main-content">
             <div style="display: flex;" class="main-text">
-                <p>{{ page.verse }}</p>
-                <p class="">{{ page.content }}</p>    
+                <p class="main-text">{{ page.verse }}  </p>
+                <p class="main-text">{{ page.content }}</p>    
             </div>
             <p class="trans">{{ page.translation }}</p>
             <div style="clear: both;"></div>

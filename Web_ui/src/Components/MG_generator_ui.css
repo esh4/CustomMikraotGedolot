@@ -1,16 +1,17 @@
 #form{
-    display: flex;
+    /* display: flex; */
+    max-width: 360px;
 }
 
-#bible-radio{
+/* #bible-radio{
     display: flex;
     align-items: flex-start;
     justify-content: space-evenly;
     width: 50%;
-}
+} */
 
 
 .books{
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
 }

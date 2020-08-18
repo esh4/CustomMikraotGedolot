@@ -25,17 +25,21 @@
 .main-content{
     /* padding-bottom: 1cm; */
     width: 100%;
+    margin-top: 0px;
 }
 .trans{
     direction: ltr;
     max-width: 100%;
     font-size: 14px;
+    margin-top: inherit;
 }
 
 .main-text{
     max-width: 75%;
     float: right;
     font-size: 21px;
+    margin-top: inherit;
+    margin-bottom: 0px;
 }
 
 .border{

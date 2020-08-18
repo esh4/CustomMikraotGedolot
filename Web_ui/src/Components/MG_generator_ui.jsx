@@ -4,44 +4,46 @@ import './MG_generator_ui.css'
 import CommInput from './CommInput'
 import MultiSelect from "react-multi-select-component";
 import ConfirmationDialog from './Dialog'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class MG_generator_ui extends React.Component{
     constructor(props){
         super(props);
         this.state  = {
             selectedBook: '', 
-            availble_comms: []};
+            availble_comms: [],
+            bookOptions: [{
+                part: 'Torah',
+                books: ['Genesis']
+            }],
+            waitingForFile: false
+        };
         this.baseAPIurl = 'https://www.sefaria.org.il/api/';
         this.generatorServerBaseAPIurl = 'http://localhost:3002/';
     }
 
-    listCommentatorsForBook(){
+    listBibleBooks(){
         axios.get(this.baseAPIurl + 'index/')
         .then((res) => res.data).then(data => {
             data = data[0].contents;
             console.log(data.length); 
             
             var bookOptions = [];
+            var parts = ['Torah', 'Nevi\'im', 'Ketuvim']
 
             for (var i=0; i<3; i++){
                 var subBookOption = [];
-                // console.log((data[i].contents).length)
                 for (var j=0; j<(data[i].contents).length; j++){
-                    // console.log((data[i].contents)[j]);
                     var a = 
-                    subBookOption.push(
-                            <label htmlFor={(data[i].contents)[j].title}>
-                                {(data[i].contents)[j].title}
-                                <input type="radio" name="bibleBooks" value={(data[i].contents)[j].title}
-                                onChange={e => {
-                                    console.log(e.target.value)
-                                    this.setState({selectedBook: e.target.value})
-                                    this.getCommsForBook(e.target.value)}}
-                                />
-                            </label>)
+                    subBookOption.push((data[i].contents)[j].title)
                 }
-            bookOptions.push(<div class="books">{subBookOption}</div>)
+                // console.log(subBookOption)
+                bookOptions.push({
+                    books: subBookOption,
+                part: parts[i]})
             }
+
+            // console.log(bookOptions)
             this.setState({'bookOptions': bookOptions})
         })
     }
@@ -69,7 +71,7 @@ class MG_generator_ui extends React.Component{
     }
 
     componentDidMount(){
-        this.listCommentatorsForBook();
+        this.listBibleBooks();
     }
 
     requestBook(){
@@ -89,17 +91,14 @@ class MG_generator_ui extends React.Component{
                             type: 'application/pdf'
                         });
                         var blobUrl = URL.createObjectURL(myBlob);
-                        var link = document.createElement("a"); 
-                        link.href = blobUrl;
-                        link.download = "aDefaultFileName.pdf";
-                        link.innerHTML = "Click here to download the file";
-                        document.body.appendChild(link); 
-
-                        this.setState({waitingForFile: false});
+                        this.setState({
+                            bookURL: blobUrl,
+                            waitingForFile: false
+                        })
                         clearInterval(this.intervalID);
                     }
                 })
-            }, 500)
+            }, 1500)
             
 
         })
@@ -110,11 +109,10 @@ class MG_generator_ui extends React.Component{
             <div>
                 <h1>MG_generator_ui</h1>
                 <div id="form">
-                    <br/>
-                    <ConfirmationDialog options={['a', 'b', 'c']}></ConfirmationDialog>
-                    <div id="bible-radio">
-                    {this.state.bookOptions}
-                    </div>
+                    <ConfirmationDialog options={this.state.bookOptions} onChange={b => {
+                        this.setState({selectedBook: b})
+                        this.getCommsForBook(b)
+                        }}></ConfirmationDialog>
                     <br/>
                     <MultiSelect 
                     options={this.state.availble_comms} 
@@ -122,8 +120,16 @@ class MG_generator_ui extends React.Component{
                     onChange={b => this.setState({selected_comm: b})} 
                     hasSelectAll={false}>
                     </MultiSelect>
-                    <input type="submit" value="Generate MG" onClick={() => this.requestBook()}></input>
+                    <br/>
+                    <input type="submit" value="Generate MG" onClick={() => {
+                        this.requestBook()
+                        this.setState({
+                            selected_comm: ''
+                        })
+                        }}></input>
                 </div>
+                {this.state.waitingForFile ? <CircularProgress/> : 
+                <a disabled={!this.state.waitingForFile} href={this.state.bookURL} download={this.state.selectedBook + '.pdf'}>Click here to download the book</a>}
             </div> 
         )
     }
