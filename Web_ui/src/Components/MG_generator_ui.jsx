@@ -3,6 +3,7 @@ import axios from 'axios';
 import './MG_generator_ui.css'
 import CommInput from './CommInput'
 import MultiSelect from "react-multi-select-component";
+import ConfirmationDialog from './Dialog'
 
 class MG_generator_ui extends React.Component{
     constructor(props){
@@ -102,18 +103,6 @@ class MG_generator_ui extends React.Component{
             
 
         })
-        // .then(res => {
-        //     console.log(res);
-        //     var myBlob = new Blob([res.data], {
-        //         type: 'application/pdf'
-        //       });
-        //     var blobUrl = URL.createObjectURL(myBlob);
-        //     var link = document.createElement("a"); 
-        //     link.href = blobUrl;
-        //     link.download = "aDefaultFileName.pdf";
-        //     link.innerHTML = "Click here to download the file";
-        //     document.body.appendChild(link); 
-        // })
     }
 
     render(){
@@ -122,6 +111,7 @@ class MG_generator_ui extends React.Component{
                 <h1>MG_generator_ui</h1>
                 <div id="form">
                     <br/>
+                    <ConfirmationDialog options={['a', 'b', 'c']}></ConfirmationDialog>
                     <div id="bible-radio">
                     {this.state.bookOptions}
                     </div>

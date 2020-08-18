@@ -1,5 +1,6 @@
 import requests
 
+
 class SefariaAPI:
     def __init__(self, base_url='http://www.sefaria.org/api'):
         self.base_url = base_url
@@ -18,5 +19,9 @@ class SefariaAPI:
         res = requests.get(req)
         print(res)
         book = res.json()
-        return book['he'], book['text']
+        return book['he'], book['text'], book
 
+    def get_book_info(self, book):
+        res = requests.get('{}/index/{}'.format(self.base_url, book))
+        res = res.json()
+        return res

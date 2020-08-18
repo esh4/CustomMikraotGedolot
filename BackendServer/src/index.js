@@ -18,7 +18,12 @@ app.post('/generate', (req, res) => {
     const trans = req.body.trans
     const coms = req.body.coms
 
-    var args = ['Tools/CustomMikraotGdolot/GeneratePage_cli.py', '-b', book, '-c']
+    // TODO: change this to a real hashing function 
+    var id = Math.round(Math.random() * 2048)
+    fileIDs[id] = join('Tools/CustomMikraotGdolot/generated/',book+'_'+ id, '/pdf/out.pdf')
+    console.log(fileIDs[id])
+
+    var args = ['Tools/CustomMikraotGdolot/GeneratePage_cli.py', '-b', book, '--out', book + '_' + id, '-c']
 
     coms.map(c => {
         args.push(c.label)
@@ -36,8 +41,7 @@ app.post('/generate', (req, res) => {
     python.on('exit', c => {
         // res.download('Tools/CustomMikraotGdolot/generated/' + book + '/pdf/out.pdf')
     })
-    id = Math.round(Math.random() * 2048)
-    fileIDs[id] = 'Tools/CustomMikraotGdolot/generated/' + book + '/pdf/out.pdf'
+
     res.send({ fileID: id })
 })
 

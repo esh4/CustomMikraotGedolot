@@ -1,5 +1,15 @@
- @page {
+@page{
     size: A4;
+}
+
+@font-face {
+    font-family: "Taamey Frank";
+    src: local("Taamey Frank CLM"),
+         url("./TaameyFrankCLM-Medium.ttf") format("truetype");
+}
+
+#cover-page{
+    page-break-after: always;
 }
 
 .page-header{
@@ -9,24 +19,27 @@
 
 .page-body{
     page-break-after: always;
+    font-family: 'Taamey Frank';
 }
 
 .main-content{
-    padding-bottom: 1cm;
+    /* padding-bottom: 1cm; */
     width: 100%;
 }
 .trans{
     direction: ltr;
     max-width: 100%;
+    font-size: 14px;
 }
 
 .main-text{
-    max-width: 60%;
+    max-width: 75%;
     float: right;
+    font-size: 21px;
 }
 
-#border{
-    border-style: solid;
+.border{
+    /* border-style: solid; */
     border-width:  2px;
     border-color: brown;
 }
@@ -37,17 +50,20 @@
 
 .commentary{
     /*width: 50%;*/
-    display: flex;
+    /* display: flex; */
+    margin: 1em;
 }
 
 .commentary h1{
-    font-weight: normal;
+    font-weight: bold;
     margin-top: 16px;
     font-size: 14px;
+    margin-bottom: 0px;;
 }
 
 .commentary .commentary-text{
     /* grid-column: 2; */
     font-size: 12px;
     text-align: justify;
+    margin-top: 0px;
 }

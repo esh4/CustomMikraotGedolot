@@ -3,21 +3,24 @@
 
 <html lang="he" dir="rtl">
 <section id="cover-page">
-    <h1>Cover Page</h1>
+    <h1>{{  book_info.title  }}</h1>
 </section>
 
 {% for page in book %}
 <section class="page-header">
-    <h1> {{  page.book  }}</h1>
+    <h1> {{  page.book  }}  </h1>
     <h2> {{ page.chapter }}</h2>
-    <h3> {{ page.verse }}</h3>
 </section>
 
 <section class="page-body">
     <div class="border">
         <section class="main-content">
-            <p class="main-text">{{ page.content }}</p>
+            <div style="display: flex;" class="main-text">
+                <p>{{ page.verse }}</p>
+                <p class="">{{ page.content }}</p>    
+            </div>
             <p class="trans">{{ page.translation }}</p>
+            <div style="clear: both;"></div>
         </section>
         <section class="commentary-section">
             {% for com in page.commentators%}
@@ -25,7 +28,7 @@
                 <h1> {{com['name']}} </h1>
                 <div class="commentary-text">
                     {% for c in com.text %}
-                    <p>{{  c  }}</p>
+                    <p class="commentary-text">{{  c  }}</p>
                     {% endfor %}
                 </div>
             </div>
