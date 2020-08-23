@@ -20,13 +20,13 @@ app.post('/generate', (req, res) => {
 
     // TODO: change this to a real hashing function 
     var id = Math.round(Math.random() * 2048)
-    fileIDs[id] = join('Tools/CustomMikraotGdolot/generated/',book+'_'+ id, '/pdf/out.pdf')
+    fileIDs[id] = join('Tools/CustomMikraotGdolot/generated/', book + '_' + id, '/pdf/out.pdf')
     console.log(fileIDs[id])
 
     var args = ['Tools/CustomMikraotGdolot/GeneratePage_cli.py', '-b', book, '--out', book + '_' + id, '-c']
 
     coms.map(c => {
-        args.push(c.label)
+        args.push(c.base_ref)
     })
 
     const python = spawn('python', args)
@@ -36,6 +36,7 @@ app.post('/generate', (req, res) => {
     });
     python.stderr.on('data', (data) => {
         console.log(`stderr: ${data}`);
+        fileIDs[id] = 504;
     });
 
     python.on('exit', c => {
@@ -46,16 +47,21 @@ app.post('/generate', (req, res) => {
 })
 
 app.get('/file/:id', (req, res) => {
-    fs.access(fileIDs[req.params.id], fs.F_OK, (err) => {
-        if (err) {
-            res.sendStatus(404)
-            res.send()
-            console.error(err)
-            return
-        }
-        //file exists
-        res.download(fileIDs[req.params.id])
-    })
+    if (fileIDs[req.params.id] == 504) {
+        res.sendStatus(504)
+        res.send()
+    } else {
+        fs.access(fileIDs[req.params.id], fs.F_OK, (err) => {
+            if (err) {
+                res.sendStatus(404)
+                res.send()
+                console.error(err)
+                return
+            }
+            //file exists
+            res.download(fileIDs[req.params.id])
+        })
+    }
 })
 
 app.listen(port, () => {

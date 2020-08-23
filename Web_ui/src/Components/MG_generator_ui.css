@@ -1,6 +1,7 @@
 #form{
     /* display: flex; */
     max-width: 360px;
+    padding: 2em;
 }
 
 /* #bible-radio{
@@ -15,3 +16,11 @@
     /* display: flex; */
     flex-direction: column;
 }
+
+#main{
+    width: 25em;
+    border: khaki;
+    border-style: groove;
+    border-radius: 1em;
+}
+

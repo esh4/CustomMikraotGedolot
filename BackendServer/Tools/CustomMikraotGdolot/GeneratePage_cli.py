@@ -28,7 +28,6 @@ commentators = args.c
 output_file = args.out
 
 
-
 api = SefariaAPI()
 
 env = Environment(
@@ -37,7 +36,6 @@ env = Environment(
 )
 print(os.getcwd())
 book_template = env.get_template('daf layout.html')
-# page_template = env.get_template('page_content.html')
 
 book_content = []
 
@@ -49,26 +47,28 @@ if not output_file in os.listdir('generated'):
     os.mkdir('generated/{}'.format(output_file + '/pdf'))
     os.mkdir('generated/{}'.format(output_file + '/html'))
 
+book_info = api.get_book_info(book)
+
 for ch_num, chapter in enumerate(api.chapters_in_book(book)):
-    for v_num, verse in enumerate(chapter):
+    for v_num, verse in enumerate(chapter[0]):
         commentators_for_template = []
         for commentator in commentators:
             commentary = api.get_book_text('{}.{}.{}'.format(commentator, ch_num + 1, v_num + 1))
             commentators_for_template.append({
-                'name': commentary[2]['heCommentator'],
+                'name': commentary[2]['heIndexTitle'],
                 'text': commentary[0]
             })
 
         book_content.append({
             'verse': '{}'.format(v_num + 1),
-            'book': u'{}'.format(book),
+            'book': u'{}'.format(book_info['heTitle']),
             'chapter': u'{}'.format(ch_num + 1),
             'content': chapter[0][v_num],
             'translation': chapter[1][v_num],
             'commentators': commentators_for_template
         })
 
-        if v_num == 3:
+        if v_num == 4:
             break
 
     if ch_num == 0:
@@ -80,7 +80,8 @@ book_info = api.get_book_info(book)
 book_html = book_template.render({
     'book': book_content,
     'book_info': {
-        'title': book_info['heTitle']
+        'title': book_info['heTitle'],
+        'comms': commentators
     }
 })
 

@@ -10,6 +10,7 @@
 
 #cover-page{
     page-break-after: always;
+    text-align: center;
 }
 
 .page-header{
@@ -32,6 +33,7 @@
     max-width: 100%;
     font-size: 14px;
     margin-top: inherit;
+    text-align: justify;
 }
 
 .main-text{
@@ -40,6 +42,7 @@
     font-size: 21px;
     margin-top: inherit;
     margin-bottom: 0px;
+    text-align: justify;
 }
 
 .border{
