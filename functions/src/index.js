@@ -1,31 +1,38 @@
 const functions = require('firebase-functions');
+var admin = require("firebase-admin");
 
 const express = require('express')
 const fs = require('fs')
 var cors = require('cors')
 const { spawn } = require('child_process');
 const bodyParser = require("body-parser");
-const { join} = require('path');
+const { join } = require('path');
 const path = require('path')
 const app = express()
 const port = 3002
 
-app.use(cors())
+app.use(cors({origin: true}))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// app.use(express.static(join(__dirname, 'Web_ui', 'build')));
+// Set the configuration for your app
+// TODO: Replace with your app's config object
+var firebaseConfig = {
+    credential: admin.credential.applicationDefault(),
+    storageBucket: 'custom-mikraot-gedolot.appspot.com'
+};
+admin.initializeApp(firebaseConfig);
 
-// app.get('/', function(req, res) {
-//   res.sendFile(join(__dirname, 'Web_ui', 'build', 'index.html'));
-// });
-
+// Get a reference to the storage service, which is used to create references in your storage bucket
+var storage = admin.storage().bucket();
+// var storageRef = storage.ref();
 
 app.post('/generate', (req, res) => {
     const book = req.body.book
     const trans = req.body.trans
     const coms = req.body.coms
     let fileIDs = JSON.parse(fs.readFileSync(join('Tools/CustomMikraotGdolot/generated/file_ids.json')))
+    console.log(req.body)
 
     // TODO: change this to a real hashing function 
     var id = Math.round(Math.random() * 2048)
@@ -34,7 +41,7 @@ app.post('/generate', (req, res) => {
     fs.writeFile('Tools/CustomMikraotGdolot/generated/file_ids.json', JSON.stringify(fileIDs), err => console.log(err))
 
     // console.log(fileIDs[id])
-    var args = ['Tools/CustomMikraotGdolot/GeneratePage_cli.py', '-b', book, '--out', book + '_' + id, '-c']
+    var args = ['Tools/CustomMikraotGdolot/GeneratePage_cli.py', '-b', book, '--out', id, '-c']
 
     coms.map(c => {
         args.push(c.base_ref)
@@ -47,18 +54,24 @@ app.post('/generate', (req, res) => {
     });
     python.stderr.on('data', (data) => {
         console.log(`stderr: ${data}`);
-        fileIDs[id] = 504;
     });
 
     python.on('exit', c => {
-        // res.download('Tools/CustomMikraotGdolot/generated/' + book + '/pdf/out.pdf')
+        // storage.upload('./generated/' + id + '/pdf/out.pdf', {destination: id+'.pdf'}, 
+        // err => {
+        //     if(!err) {
+        //         console.log('uploaded!')
+        //     } else{
+        //         console.log(err)
+        //     }
+        // })
     })
 
     res.send({ fileID: id })
 })
 
 app.get('/file/:id', (req, res) => {
-    fileIDs = JSON.parse(fs.readFileSync('Tools/CustomMikraotGdolot/generated/file_ids.json'))
+    // fileIDs = JSON.parse(fs.readFileSync('Tools/CustomMikraotGdolot/generated/file_ids.json'))
     if (fileIDs[req.params.id] == 504) {
         res.sendStatus(504)
         res.send()
@@ -76,6 +89,8 @@ app.get('/file/:id', (req, res) => {
             res.download(fileIDs[req.params.id])
         })
     }
+    // storage.file(req.params.id + '.pdf')
+    // res.send()
 })
 
 app.listen(port, () => {
