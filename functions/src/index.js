@@ -36,7 +36,7 @@ app.post('/generate', (req, res) => {
 
     // TODO: change this to a real hashing function 
     var id = Math.round(Math.random() * 2048)
-    fileIDs[id] = join('Tools/CustomMikraotGdolot/generated/', id, '/pdf/out.pdf')
+    fileIDs[id] = join('Tools/CustomMikraotGdolot/generated/', id.toString(), '/pdf/out.pdf')
 
     fs.writeFile('Tools/CustomMikraotGdolot/generated/file_ids.json', JSON.stringify(fileIDs), err => console.log(err))
 
