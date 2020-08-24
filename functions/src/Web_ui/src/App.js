@@ -45,7 +45,7 @@ We think our app can really help us all learn Torah.        </p>
 
         <footer>
           <p>
-            This project uses the non-commercial version of Prince <a href="www.princexml.com">www.princexml.com</a>
+            This project uses the non-commercial version of Prince <a target="_blank" href="https://www.princexml.com">www.princexml.com</a>
           </p>
         </footer>
       </div>

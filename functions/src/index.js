@@ -15,17 +15,12 @@ app.use(cors({origin: true}))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Set the configuration for your app
-// TODO: Replace with your app's config object
-var firebaseConfig = {
-    credential: admin.credential.applicationDefault(),
-    storageBucket: 'custom-mikraot-gedolot.appspot.com'
-};
-admin.initializeApp(firebaseConfig);
+app.use(express.static(join(__dirname, 'Web_ui', 'build')));
 
-// Get a reference to the storage service, which is used to create references in your storage bucket
-var storage = admin.storage().bucket();
-// var storageRef = storage.ref();
+app.get('/', function(req, res) {
+  res.sendFile(join(__dirname, 'Web_ui', 'build', 'index.html'));
+});
+
 
 app.post('/generate', (req, res) => {
     const book = req.body.book
@@ -57,14 +52,7 @@ app.post('/generate', (req, res) => {
     });
 
     python.on('exit', c => {
-        // storage.upload('./generated/' + id + '/pdf/out.pdf', {destination: id+'.pdf'}, 
-        // err => {
-        //     if(!err) {
-        //         console.log('uploaded!')
-        //     } else{
-        //         console.log(err)
-        //     }
-        // })
+
     })
 
     res.send({ fileID: id })
@@ -89,8 +77,6 @@ app.get('/file/:id', (req, res) => {
             res.download(fileIDs[req.params.id])
         })
     }
-    // storage.file(req.params.id + '.pdf')
-    // res.send()
 })
 
 app.listen(port, () => {
