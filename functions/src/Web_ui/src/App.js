@@ -43,7 +43,7 @@ function App() {
 
         <footer>
           <p>
-            This project uses the non-commercial version of Prince www.princexml.com
+            This project uses the non-commercial version of Prince <a href="www.princexml.com">www.princexml.com</a>
           </p>
         </footer>
       </div>
