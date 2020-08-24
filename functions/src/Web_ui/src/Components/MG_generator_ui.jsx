@@ -24,7 +24,7 @@ class MG_generator_ui extends React.Component {
             alert: false
         };
         this.baseAPIurl = 'https://www.sefaria.org.il/api/';
-        this.generatorServerBaseAPIurl = 'http://localhost:5000/custom-mikraot-gedolot/us-central1/app/';
+        this.generatorServerBaseAPIurl = 'http://ec2-3-134-87-226.us-east-2.compute.amazonaws.com:3002/';
     }
 
     listBibleBooks() {

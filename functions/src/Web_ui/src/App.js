@@ -12,7 +12,7 @@ function App() {
 
       <div id="body">
       <div class="instructions">
-            <h3>Details</h3>
+            <h3 class="instructions">Details</h3>
             <p>
             With our app, based on Sefaria's Yam Shel Torah, you can now create your own Mikraot Gedolot! <br/>
             You choose the book from Tanach, and then you can choose any one of Sefaria's translations on that book, and up to 9 commentaries on the book. The PDF that the app then creates is downloadable and printable, and it's just like the best of today's modern Mikraot Gedolot. Readable print, and the commentaries on a pasuk stay on the page, so no flipping back and forth! <br/>

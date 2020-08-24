@@ -36,7 +36,7 @@ app.post('/generate', (req, res) => {
 
     // TODO: change this to a real hashing function 
     var id = Math.round(Math.random() * 2048)
-    fileIDs[id] = join('Tools/CustomMikraotGdolot/generated/', book + '_' + id, '/pdf/out.pdf')
+    fileIDs[id] = join('Tools/CustomMikraotGdolot/generated/', id, '/pdf/out.pdf')
 
     fs.writeFile('Tools/CustomMikraotGdolot/generated/file_ids.json', JSON.stringify(fileIDs), err => console.log(err))
 
@@ -47,7 +47,7 @@ app.post('/generate', (req, res) => {
         args.push(c.base_ref)
     })
 
-    const python = spawn('python', args)
+    const python = spawn('python3', args)
 
     python.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
@@ -71,7 +71,7 @@ app.post('/generate', (req, res) => {
 })
 
 app.get('/file/:id', (req, res) => {
-    // fileIDs = JSON.parse(fs.readFileSync('Tools/CustomMikraotGdolot/generated/file_ids.json'))
+    fileIDs = JSON.parse(fs.readFileSync('Tools/CustomMikraotGdolot/generated/file_ids.json'))
     if (fileIDs[req.params.id] == 504) {
         res.sendStatus(504)
         res.send()
