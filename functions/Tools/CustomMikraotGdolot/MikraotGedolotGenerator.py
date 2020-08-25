@@ -19,7 +19,6 @@ class MikraotGedolotGenerator:
         self.max_verses = 5
         self.max_chapters = 1
 
-
     def calculateTextsizeOnPage(self, text, font_size, aspect_ratio=0.75, page_size=(794 - 166, 1123 - 166)):
         # A4 = (794px, 1123px)
         # 20mm top margin + 24mm bottom margin = 44mm = 166px (96 DPI)
@@ -62,7 +61,7 @@ class MikraotGedolotGenerator:
 
                 print('verse {} takes {} pages'. format(v_num + 1, text_p))
 
-                if text_p // 1 < 2 and text_p % 1 < 0.6:
+                if text_p // 1 < 2 and text_p % 1 < 0.6 and len(cache['content']) <= 3:
                     print('caching verse {}'.format(v_num + 1))
                     cache['verse'].append(v_num + 1)
                     cache['content'].append(chapter[0][v_num])
@@ -153,7 +152,7 @@ class TemplateManager:
                           '-s', 'templates/styles.css', '-o', 'generated/{}/pdf/out.pdf'.format(self.output_file)])
 
 if __name__ == '__main__':
-    mg = MikraotGedolotGenerator('Ezra', ['Rashi on Ezra', 'Saadia Gaon on Ezra'])
+    mg = MikraotGedolotGenerator('Numbers', ['Rashi on Numbers', 'Malbim on Numbers'], 'default')
     tm = TemplateManager('testEzra')
     tm.config_env()
 
