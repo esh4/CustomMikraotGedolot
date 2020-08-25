@@ -38,13 +38,23 @@
     text-align: justify;
 }
 
-.main-text{
+.main-text-container{
     max-width: 75%;
-    float: right;
+    float: right;   
     font-size: 21px;
     margin-top: inherit;
+    margin-left: 1em;
     margin-bottom: 0px;
     text-align: justify;
+}
+
+.main-text{
+    margin-top: initial;
+    margin-bottom: 0em;
+}
+
+.main-text-verse{
+    margin-top: inherit;
 }
 
 .border{

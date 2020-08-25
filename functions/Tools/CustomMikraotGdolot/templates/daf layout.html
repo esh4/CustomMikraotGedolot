@@ -38,8 +38,8 @@
 <section class="page-body">
     <div class="border">
         <section class="main-content">
-            <div style="display: flex;" class="main-text">
-                <p class="main-text">{{ page.verse }}  </p>
+            <div style="display: flex;" class="main-text-container">
+                <p class="main-text-verse">{{ page.verse }}  </p>
                 <p class="main-text">{{ page.content }}</p>    
             </div>
             <p class="trans">{{ page.translation }}</p>
@@ -58,6 +58,7 @@
             {% endfor %}
         </section>
     </div>
+    {{ page.debug }}
 </section>
 {% endfor %}
 
