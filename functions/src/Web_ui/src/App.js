@@ -24,8 +24,8 @@ We think our app can really help us all learn Torah.        </p>
             <h3>Instructions:</h3>
             <p>
               1. Choose a book from the Tanakh. <br />
-          2. Choose a translation that will apear alongside the source. <br />
-          3. Choose any number of commentators that you wish to upear in your book.<br />
+          2. Choose a translation that will appear alongside the source. <br />
+          3. Choose any number of commentators that you wish to appear in your book.<br />
           4. Click "generate". <br />
           5. Wait until the script finishes creating the book and click to download the book. (this can take up to a couple of minutes)
         </p>
@@ -35,7 +35,7 @@ We think our app can really help us all learn Torah.        </p>
             <p>
               This is a demo version of the complete project, and is thus limited as follows: <br/>
               - Generating a Mikraot Gedolot book for and entire <i>sefer</i> is a long process (can take up to an hour due to many calls to the Sefaria API and compiling it into a PDF), 
-              therefor this demo is limited to the first 5 verses.  <br/>
+              therefore this demo is limited to the first 5 verses.  <br/>
               - JPS Footnotes are currently unsupported.  
             </p>
           </div>
