@@ -48,7 +48,7 @@ class MikraotGedolotGenerator:
             cache = {'verse':[], 'content':[], 'translation':[], 'commentators':[]}
             v_num = 0
 
-            while v_num < len(chapter[0]) and v_num <= self.max_verses - 1:
+            while v_num < len(chapter[0]) and v_num < self.max_verses - 1:
                 commentry = self.get_commentators(ch_num + 1, v_num + 1)
 
                 # calculate how many pages the text will take:
