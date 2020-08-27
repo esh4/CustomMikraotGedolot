@@ -107,9 +107,6 @@ class MikraotGedolotGenerator:
                     'commentators': commentary,
                     'debug': ''
                 })
-            # if ch_num >= self.max_chapters - 1:
-            #     print('hit chapter limit... you\'re being cut off')
-            #     break
         return {
             'book': self.template_content,
             'book_info': {
