@@ -42,7 +42,7 @@ class MikraotGedolotGenerator:
             cache = {'verse':[], 'content':[], 'translation':[], 'commentators':[]}
             v_num = 0
             while v_num < len(chapter) and v_num < self.max_verses - 1:
-                commentry = self.format_commentators(ch_num + 1, v_num + 1)
+                commentry = self.format_commentators(ch_num, v_num)
 
                 # calculate how many pages the text will take:
                 total_com_text = ''.join([j for c in commentry for j in c['text']])
@@ -99,8 +99,8 @@ class MikraotGedolotGenerator:
                     'verse': '{}'.format(cache['verse'][0] if len(cache['verse']) > 0 else v_num + 1),
                     'book': u'{}'.format(self.book_content.book.heName),
                     'chapter': u'{}'.format(ch_num + 1),
-                    'content': ' '.join(cache['content']) + ' ' + chapter[v_num],
-                    'translation': ' '.join(cache['translation']) + ' ' + self.book_content.translation.content[ch_num][v_num],
+                    'content': ' '.join(cache['content']) ,#+ ' ' + chapter[v_num],
+                    'translation': ' '.join(cache['translation']), #+ ' ' + self.book_content.translation.content[ch_num][v_num],
                     'commentators': commentary,
                     'debug': ''
                 })
@@ -150,7 +150,8 @@ class TemplateManager:
 if __name__ == '__main__':
     book_content = BookContent('Numbers', 'he/Tanach with Text Only', ['Rashi on Numbers', 'Rashbam on Numbers'])
     book_content.populate()
-    mg = MikraotGedolotGenerator(book_content, is_demo=True)
+
+    mg = MikraotGedolotGenerator(book_content, is_demo=False)
     tm = TemplateManager('testEzra')
     tm.config_env()
 
