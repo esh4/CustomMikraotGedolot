@@ -29,6 +29,6 @@ book, comms, out_file, trans = get_arguments()
 tm = TemplateManager(out_file)
 tm.config_env()
 
-mg = MikraotGedolotGenerator(book, comms, trans, is_demo=True)
+mg = MikraotGedolotGenerator(book, comms, trans, is_demo=False)
 data = mg.generate()
 tm.render_template(data)

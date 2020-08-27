@@ -16,11 +16,9 @@ class MikraotGedolotGenerator:
 
         self.book_info = self.api.get_book_info(book)
 
-        # for demo:
-        # if is_demo:
-        #     self.max_verses = 5
-        #     self.max_chapters = 1
-        self.max_verses, self.max_chapters = (5, 1) if is_demo else (1000, 1000)
+        self.chapter_range = (1, 1000)
+
+        self.max_verses, self.max_chapters = (5, 1) if is_demo else (1000, 1)
 
     @staticmethod
     def calculate_pages_per_text(text, font_size, aspect_ratio=0.75, page_size=(794 - 166, 1123 - 166)):
@@ -98,23 +96,24 @@ class MikraotGedolotGenerator:
                 v_num += 1
 
             # add leftover cache if any
-            commentary = cache['commentators'][0]
-            # commentary.append(cache['commentators'][0])
-            for c in commentary:
-                for j in range(1, len(cache['commentators'])):
-                    for i in cache['commentators'][j]:
-                        if i['name'] == c['name']:
-                            c['text'].append(''.join(i['text']))
+            if len(cache['verse']) > 0:
+                commentary = cache['commentators'][0]
+                # commentary.append(cache['commentators'][0])
+                for c in commentary:
+                    for j in range(1, len(cache['commentators'])):
+                        for i in cache['commentators'][j]:
+                            if i['name'] == c['name']:
+                                c['text'].append(''.join(i['text']))
 
-            self.book_content.append({
-                'verse': '{}'.format(cache['verse'][0] if len(cache['verse']) > 0 else v_num + 1),
-                'book': u'{}'.format(self.book_info['heTitle']),
-                'chapter': u'{}'.format(ch_num + 1),
-                'content': ' '.join(cache['content']) + ' ' + chapter[v_num],
-                'translation': ' '.join(cache['translation']) + ' ' + translation[ch_num][v_num],
-                'commentators': commentary,
-                'debug': ''
-            })
+                self.book_content.append({
+                    'verse': '{}'.format(cache['verse'][0] if len(cache['verse']) > 0 else v_num + 1),
+                    'book': u'{}'.format(self.book_info['heTitle']),
+                    'chapter': u'{}'.format(ch_num + 1),
+                    'content': ' '.join(cache['content']) + ' ' + chapter[v_num],
+                    'translation': ' '.join(cache['translation']) + ' ' + translation[ch_num][v_num],
+                    'commentators': commentary,
+                    'debug': ''
+                })
             if ch_num >= self.max_chapters - 1:
                 break
         return {

@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import MG_generator_ui from './Components/MG_generator_ui'
+import BookDisplay from './Components/BookDisplay'
 
 function App() {
   return (
@@ -35,14 +36,16 @@ We think our app can really help us all learn Torah.        </p>
             <p>
               This is a demo version of the complete project, and is thus limited as follows: <br/>
               - Generating a Mikraot Gedolot book for and entire <i>sefer</i> is a long process (can take up to an hour due to many calls to the Sefaria API and compiling it into a PDF), 
-              therefore this demo is limited to the first 5 verses.  <br/>
+              therefore this demo is limited to the first 5 verses. I plan to implement better concurrency so that the process takes substancially less time in the future. <br/>
               - JPS Footnotes are currently unsupported.  
+            </p>
+            <p>
+              You can look through a few examples I generated <a target="_blank" href='https://www.dropbox.com/s/17zw7lye3i8yps5/Esther%20Chapter%201.pdf?dl=0'>here</a>
             </p>
           </div>
         </section>
 
         <MG_generator_ui></MG_generator_ui>
-
         <footer>
           <p>
             This project uses the non-commercial version of Prince <a target="_blank" href="https://www.princexml.com">www.princexml.com</a>
