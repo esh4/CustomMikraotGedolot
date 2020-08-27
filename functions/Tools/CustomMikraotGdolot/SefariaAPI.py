@@ -12,7 +12,7 @@ class SefariaAPI:
 
     def get_book_text(self, book, lang='he', version=None):
         params = ''
-        if version is not None:
+        if self.version is not None:
             params = '/{lang}/{ver}'.format(lang=lang, ver=version)
         req = '{}/texts/{}{}?pad=0'.format(self.base_url, book, params)
         print(req)

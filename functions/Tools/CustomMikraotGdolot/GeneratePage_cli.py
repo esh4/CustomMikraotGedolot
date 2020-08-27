@@ -35,6 +35,9 @@ def get_arguments():
 
 book, comms, out_file, trans, text_range = get_arguments()
 
+# for demo
+text_range = (1, 2)
+
 book_content = BookContent(book, trans, comms, text_range=text_range)
 book_content.populate()
 

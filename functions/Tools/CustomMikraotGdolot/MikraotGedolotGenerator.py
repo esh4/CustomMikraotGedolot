@@ -59,13 +59,13 @@ class MikraotGedolotGenerator:
                 # print('verse {} takes {} pages'. format(v_num + 1, text_p))
 
                 if text_p // 1 < 2 and text_p % 1 < 0.6 and len(cache['content']) <= 3:
-                    print('caching verse {}'.format(v_num + 1))
+                    # print('caching verse {}'.format(v_num + 1))
                     cache['verse'].append(v_num + 1)
                     cache['content'].append(chapter[v_num])
                     cache['translation'].append(self.book_content.translation.content[ch_index][v_num])
                     cache['commentators'].append(commentry)
                 else:
-                    print('adding cache to verse {}'.format(v_num + 1))
+                    # print('adding cache to verse {}'.format(v_num + 1))
                     # print(cache)
 
                     # combine coms:
@@ -107,6 +107,7 @@ class MikraotGedolotGenerator:
                     'commentators': commentary,
                     'debug': ''
                 })
+        print('finished generating content')
         return {
             'book': self.template_content,
             'book_info': {
@@ -145,6 +146,7 @@ class TemplateManager:
 
         subprocess.Popen(['prince', 'generated/{}/html/rendered_html.html'.format(self.output_file),
                           '-s', 'templates/styles.css', '-o', 'generated/{}/pdf/out.pdf'.format(self.output_file)])
+        print('document rendered!')
 
 
 if __name__ == '__main__':
