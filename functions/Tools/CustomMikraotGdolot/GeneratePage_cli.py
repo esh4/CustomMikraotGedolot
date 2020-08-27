@@ -42,7 +42,7 @@ book_content = BookContent(book, trans, comms, text_range=text_range)
 book_content.populate()
 
 mg = MikraotGedolotGenerator(book_content, chapter_range=text_range)
-tm = TemplateManager('testEzra')
+tm = TemplateManager(out_file)
 tm.config_env()
 
 data = mg.generate()
