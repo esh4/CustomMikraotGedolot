@@ -6,7 +6,7 @@ from MikraotGedolotGenerator import MikraotGedolotGenerator, TemplateManager
 def get_arguments():
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument('-b', type=str)
-    arg_parser.add_argument('--out', type=str, required=False)
+    arg_parser.add_argument('--out', type=str, required=True)
     arg_parser.add_argument('-t', type=str, required=False)
     arg_parser.add_argument('-c', type=str, nargs='+')
 

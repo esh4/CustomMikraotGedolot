@@ -8,6 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Card from '@material-ui/core/Card';
 import { Dialog } from '@material-ui/core';
 import AlertDialog from './AlertDialog';
+import Select from 'react-select'
 
 
 class MG_generator_ui extends React.Component {
@@ -20,6 +21,8 @@ class MG_generator_ui extends React.Component {
                 part: 'Torah',
                 books: ['Genesis']
             }],
+            translationOptions: {},
+            selectedTranslation: 'default',
             waitingForFile: false,
             alert: false
         };
@@ -42,14 +45,11 @@ class MG_generator_ui extends React.Component {
                         var a =
                             subBookOption.push((data[i].contents)[j].title)
                     }
-                    // console.log(subBookOption)
                     bookOptions.push({
                         books: subBookOption,
                         part: parts[i]
                     })
                 }
-
-                // console.log(bookOptions)
                 this.setState({ 'bookOptions': bookOptions })
             })
     }
@@ -72,17 +72,30 @@ class MG_generator_ui extends React.Component {
                 });
             })
             .then(data => { //remove duplicates
-                // console.log(data)
                 return data.filter((v, i, a) => a.findIndex(t => (t.label === v.label)) === i)
             })
             .then(data => {
                 return data.map(o => {
-                    // console.log(o)
                     o.base_ref = o.value.ref.slice(0, -5)
                     return o;
                 })
             })
             .then(data => this.setState({ availble_comms: data }))
+    }
+
+    getTranslationOptions(book) {
+        axios.get(this.baseAPIurl + 'texts/' + book).then(res => res.data.versions)
+        .then(t => {
+            return t.map(o => {
+                var newObj = {
+                    label: o.versionTitle,
+                    value: o.language + '/' + o.versionTitle, 
+                    disabled: false
+                };
+                return newObj;
+            });
+        })
+        .then(trans => this.setState({translationOptions: trans}))
     }
 
     componentDidMount() {
@@ -93,7 +106,7 @@ class MG_generator_ui extends React.Component {
         axios.post(this.generatorServerBaseAPIurl + 'generate',
             {
                 book: this.state.selectedBook,
-                trans: 'default',
+                trans: this.state.selectedTranslation,
                 coms: this.state.selected_comm,
             })
             .then(res => { this.setState({ fileID: res.data.fileID }) })
@@ -120,7 +133,7 @@ class MG_generator_ui extends React.Component {
                             clearInterval(this.intervalID);
                             }
                         }) 
-                }, 1500)
+                }, 2000)
             })
     }
 
@@ -133,14 +146,18 @@ class MG_generator_ui extends React.Component {
                     <ConfirmationDialog options={this.state.bookOptions} onChange={b => {
                         this.setState({ selectedBook: b })
                         this.getCommsForBook(b)
+                        this.getTranslationOptions(b)
                     }}></ConfirmationDialog>
                     <br />
-                    <MultiSelect
+                    <Select 
+                        options={this.state.translationOptions}
+                        onChange={t => this.setState({selectedTranslation: t.value})}></Select>
+                    <Select
                         options={this.state.availble_comms}
-                        value={this.state.selected_comm}
+                        isMulti
                         onChange={b => this.setState({ selected_comm: b })}
-                        hasSelectAll={false}>
-                    </MultiSelect>
+                        >
+                    </Select>
                     <br />
                     <input type="submit" value="Generate MG" onClick={() => {
                         this.requestBook()

@@ -5,7 +5,7 @@ import subprocess
 
 
 class MikraotGedolotGenerator:
-    def __init__(self, book, commentators, trans):
+    def __init__(self, book, commentators, trans, is_demo=False):
         self.book = book
         self.commentators = commentators
 
@@ -16,10 +16,13 @@ class MikraotGedolotGenerator:
         self.book_info = self.api.get_book_info(book)
 
         # for demo:
-        self.max_verses = 5
-        self.max_chapters = 1
+        # if is_demo:
+        #     self.max_verses = 5
+        #     self.max_chapters = 1
+        self.max_verses, self.max_chapters = (5, 1) if is_demo else (1000, 1000)
 
-    def calculateTextsizeOnPage(self, text, font_size, aspect_ratio=0.75, page_size=(794 - 166, 1123 - 166)):
+    @staticmethod
+    def calculate_pages_per_text(text, font_size, aspect_ratio=0.75, page_size=(794 - 166, 1123 - 166)):
         # A4 = (794px, 1123px)
         # 20mm top margin + 24mm bottom margin = 44mm = 166px (96 DPI)
         # 22mm margin on each side = 44mm
@@ -55,9 +58,9 @@ class MikraotGedolotGenerator:
                 total_com_names = ''.join([j for c in commentry for j in c['name']])
                 total_com = total_com_text + total_com_names
 
-                text_p = self.calculateTextsizeOnPage(chapter[0][v_num], 21) + \
-                         self.calculateTextsizeOnPage(chapter[1][v_num], 14) + \
-                         self.calculateTextsizeOnPage(total_com, 12)
+                text_p = self.calculate_pages_per_text(chapter[0][v_num], 21) + \
+                         self.calculate_pages_per_text(chapter[1][v_num], 14) + \
+                         self.calculate_pages_per_text(total_com, 12)
 
                 print('verse {} takes {} pages'. format(v_num + 1, text_p))
 
@@ -150,6 +153,7 @@ class TemplateManager:
 
         subprocess.Popen(['prince', 'generated/{}/html/rendered_html.html'.format(self.output_file),
                           '-s', 'templates/styles.css', '-o', 'generated/{}/pdf/out.pdf'.format(self.output_file)])
+
 
 if __name__ == '__main__':
     mg = MikraotGedolotGenerator('Numbers', ['Rashi on Numbers', 'Malbim on Numbers'], 'default')
