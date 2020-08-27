@@ -15,7 +15,7 @@ class MG_generator_ui extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedBook: '',
+            selectedBook: 'Genesis',
             availble_comms: [],
             bookOptions: [{
                 part: 'Torah',
@@ -28,6 +28,9 @@ class MG_generator_ui extends React.Component {
         };
         this.baseAPIurl = 'https://www.sefaria.org.il/api/';
         this.generatorServerBaseAPIurl = 'http://ec2-3-134-87-226.us-east-2.compute.amazonaws.com:3002/';
+
+        this.getCommsForBook(this.state.selectedBook)
+        this.getTranslationOptions(this.state.selectedBook)
     }
 
     listBibleBooks() {
@@ -85,17 +88,17 @@ class MG_generator_ui extends React.Component {
 
     getTranslationOptions(book) {
         axios.get(this.baseAPIurl + 'texts/' + book).then(res => res.data.versions)
-        .then(t => {
-            return t.map(o => {
-                var newObj = {
-                    label: o.versionTitle,
-                    value: o.language + '/' + o.versionTitle, 
-                    disabled: false
-                };
-                return newObj;
-            });
-        })
-        .then(trans => this.setState({translationOptions: trans}))
+            .then(t => {
+                return t.map(o => {
+                    var newObj = {
+                        label: o.versionTitle,
+                        value: o.language + '/' + o.versionTitle,
+                        disabled: false
+                    };
+                    return newObj;
+                });
+            })
+            .then(trans => this.setState({ translationOptions: trans }))
     }
 
     componentDidMount() {
@@ -129,11 +132,11 @@ class MG_generator_ui extends React.Component {
                             }
                         })
                         .catch(err => {
-                            if (err.status == 504){
-                            this.setState({alert: true})
-                            clearInterval(this.intervalID);
+                            if (err.status == 504) {
+                                this.setState({ alert: true })
+                                clearInterval(this.intervalID);
                             }
-                        }) 
+                        })
                 }, 2000)
             })
     }
@@ -141,8 +144,8 @@ class MG_generator_ui extends React.Component {
     render() {
         return (
             <div id="main">
-                <h3>Mikraot Gedolot Generator</h3> 
-                <hr/>
+                <h3>Mikraot Gedolot Generator</h3>
+                <hr />
                 <div id="form">
                     <ConfirmationDialog options={this.state.bookOptions} onChange={b => {
                         this.setState({ selectedBook: b })
@@ -150,15 +153,24 @@ class MG_generator_ui extends React.Component {
                         this.getTranslationOptions(b)
                     }}></ConfirmationDialog>
                     <br />
-                    <Select 
-                        options={this.state.translationOptions}
-                        onChange={t => this.setState({selectedTranslation: t.value})}></Select>
-                    <Select
-                        options={this.state.availble_comms}
-                        isMulti
-                        onChange={b => this.setState({ selected_comm: b })}
+                    {/* <p class='form-subtitles'>Select a translation:</p> */}
+                    <div class='select'>
+                        <Select
+                            placeholder="Select a translation..."
+                            options={this.state.translationOptions}
+                            onChange={t => this.setState({ selectedTranslation: t.value })}></Select>
+                    </div>
+                    {/* <p class='form-subtitles'>Select commentators:</p> */}
+                    <div class='select'>
+                        <Select
+                            class='select'
+                            placeholder="Select commentators..."
+                            options={this.state.availble_comms}
+                            isMulti
+                            onChange={b => this.setState({ selected_comm: b })}
                         >
-                    </Select>
+                        </Select>
+                    </div>
                     <br />
                     <input type="submit" value="Generate MG" onClick={() => {
                         this.requestBook()
@@ -169,7 +181,7 @@ class MG_generator_ui extends React.Component {
                 </div>
                 {this.state.waitingForFile ? <CircularProgress /> :
                     <a disabled={!this.state.waitingForFile} href={this.state.bookURL} download={this.state.selectedBook + '.pdf'}>Click here to download the book</a>}
-                
+
                 {this.state.alert ? <AlertDialog message={"Currently, JPS footnotes are unsupported. If you are not using JPS footnotes please contact the developers."}></AlertDialog> : <></>}
             </div>
         )
