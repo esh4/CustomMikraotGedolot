@@ -36,7 +36,7 @@ app.post('/generate', (req, res) => {
     fs.writeFile('Tools/CustomMikraotGdolot/generated/file_ids.json', JSON.stringify(fileIDs), err => console.log(err))
 
     // console.log(fileIDs[id])
-    var args = ['Tools/CustomMikraotGdolot/GeneratePage_cli.py', '-b', book, '--out', id, '-c']
+    var args = ['Tools/CustomMikraotGdolot/GeneratePage_cli.py', '-b', book, '-t', trans, '--out', id, '-c']
 
     coms.map(c => {
         args.push(c.base_ref)
