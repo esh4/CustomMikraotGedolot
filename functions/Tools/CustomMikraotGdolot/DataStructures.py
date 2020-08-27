@@ -7,29 +7,30 @@ class BookContent:
     translation = None
     commentary = []
 
-    def __init__(self, book_name, translation_version, commentators):
+    def __init__(self, book_name, translation_version, commentators, text_range=None):
         self.session = aiohttp.ClientSession()
+        self.range = text_range
 
-        self.book = SefariaAPIText(book_name, comm=commentators, session=self.session)
-        self.translation = SefariaAPIText(book_name + '/' + translation_version, session=self.session)
+        self.book = SefariaAPIText(book_name, session=self.session, text_range=text_range)
+        self.translation = SefariaAPIText(book_name + '/' + translation_version, session=self.session, text_range=text_range)
         self.commentator_names = commentators
 
     def populate_commentators(self):
+        print(len(self.book.content))
         for chapter in range(len(self.book.content)):
             comms_for_chapter = []
             for verse in range(len(self.book.content[chapter])):
                 comms_for_verse = []
                 for comm in self.commentator_names:
-                    comms_for_verse.append(SefariaAPIText('{}.{}.{}'.format(comm, chapter + 1, verse + 1), session=self.session))
+                    comms_for_verse.append(SefariaAPIText('{}.{}.{}'.format(comm, chapter + self.range[0], verse + 1), session=self.session))
                 comms_for_chapter.append(comms_for_verse)
             self.commentary.append(comms_for_chapter)
 
     def populate(self):
         loop = asyncio.get_event_loop()
-        # loop.create_task(self.book.async_get_text())
+        loop.run_until_complete(self.book.async_get_text())
+
         loop.create_task(self.translation.async_get_text())
-        self.book.get_text()
-        self.translation.get_text()
 
         self.populate_commentators()
         for chapter in range(len(self.commentary)):
@@ -40,7 +41,7 @@ class BookContent:
         tasks = asyncio.all_tasks(loop=loop)
         group = asyncio.gather(*tasks)
         loop.run_until_complete(group)
-        self.session.close()
+        loop.run_until_complete(self.session.close())
 
 
 if __name__ == '__main__':

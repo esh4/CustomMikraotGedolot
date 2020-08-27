@@ -5,12 +5,12 @@ from DataStructures import BookContent
 
 
 class MikraotGedolotGenerator:
-    def __init__(self, book, is_demo=False):
+    def __init__(self, book, is_demo=False, chapter_range=(1, 1000)):
         self.book_content: BookContent = book
         self.template_content = []
-        self.chapter_range = (1, 1000)
+        self.chapter_range = chapter_range
 
-        self.max_verses, self.max_chapters = (5, 1) if is_demo else (1000, 1)
+        self.max_verses, self.max_chapters = (5, 1) if is_demo else (1000, 1000)
 
     @staticmethod
     def calculate_pages_per_text(text, font_size, aspect_ratio=0.75, page_size=(794 - 166, 1123 - 166)):
@@ -37,12 +37,15 @@ class MikraotGedolotGenerator:
 
     def generate(self):
         print('generating...')
-        for ch_num, chapter in enumerate(self.book_content.book.content):
-            print(chapter)
+        for ch_index, chapter in enumerate(self.book_content.book.content):
+            ch_num = ch_index + self.chapter_range[0]
+            if ch_num == self.chapter_range[1]:
+                break
             cache = {'verse':[], 'content':[], 'translation':[], 'commentators':[]}
             v_num = 0
-            while v_num < len(chapter) and v_num < self.max_verses - 1:
-                commentry = self.format_commentators(ch_num, v_num)
+            while v_num < len(chapter):
+                # print(ch_num, v_num)
+                commentry = self.format_commentators(ch_index, v_num)
 
                 # calculate how many pages the text will take:
                 total_com_text = ''.join([j for c in commentry for j in c['text']])
@@ -50,20 +53,20 @@ class MikraotGedolotGenerator:
                 total_com = total_com_text + total_com_names
 
                 text_p = self.calculate_pages_per_text(chapter[v_num], 21) + \
-                         self.calculate_pages_per_text(self.book_content.translation.content[ch_num][v_num], 14) + \
+                         self.calculate_pages_per_text(self.book_content.translation.content[ch_index][v_num], 14) + \
                          self.calculate_pages_per_text(total_com, 12)
 
-                print('verse {} takes {} pages'. format(v_num + 1, text_p))
+                # print('verse {} takes {} pages'. format(v_num + 1, text_p))
 
                 if text_p // 1 < 2 and text_p % 1 < 0.6 and len(cache['content']) <= 3:
                     print('caching verse {}'.format(v_num + 1))
                     cache['verse'].append(v_num + 1)
                     cache['content'].append(chapter[v_num])
-                    cache['translation'].append(self.book_content.translation.content[ch_num][v_num])
+                    cache['translation'].append(self.book_content.translation.content[ch_index][v_num])
                     cache['commentators'].append(commentry)
                 else:
                     print('adding cache to verse {}'.format(v_num + 1))
-                    print(cache)
+                    # print(cache)
 
                     # combine coms:
                     for c in commentry:
@@ -75,9 +78,9 @@ class MikraotGedolotGenerator:
                     self.template_content.append({
                         'verse': '{}'.format(cache['verse'][0] if len(cache['verse']) > 0 else v_num + 1),
                         'book': u'{}'.format(self.book_content.book.heName),
-                        'chapter': u'{}'.format(ch_num + 1),
+                        'chapter': u'{}'.format(ch_num),
                         'content': ' '.join(cache['content']) + ' ' + chapter[v_num],
-                        'translation': ' '.join(cache['translation']) + ' ' + self.book_content.translation.content[ch_num][v_num],
+                        'translation': ' '.join(cache['translation']) + ' ' + self.book_content.translation.content[ch_index][v_num],
                         'commentators': commentry,
                         'debug': ''#'text_p: {}'.format(text_p)
                     })
@@ -98,15 +101,15 @@ class MikraotGedolotGenerator:
                 self.template_content.append({
                     'verse': '{}'.format(cache['verse'][0] if len(cache['verse']) > 0 else v_num + 1),
                     'book': u'{}'.format(self.book_content.book.heName),
-                    'chapter': u'{}'.format(ch_num + 1),
-                    'content': ' '.join(cache['content']) ,#+ ' ' + chapter[v_num],
-                    'translation': ' '.join(cache['translation']), #+ ' ' + self.book_content.translation.content[ch_num][v_num],
+                    'chapter': u'{}'.format(ch_num),
+                    'content': ' '.join(cache['content']),
+                    'translation': ' '.join(cache['translation']),
                     'commentators': commentary,
                     'debug': ''
                 })
-            if ch_num >= self.max_chapters - 1:
-                print('hit chapter limit... you\'re being cut off')
-                break
+            # if ch_num >= self.max_chapters - 1:
+            #     print('hit chapter limit... you\'re being cut off')
+            #     break
         return {
             'book': self.template_content,
             'book_info': {
@@ -148,10 +151,10 @@ class TemplateManager:
 
 
 if __name__ == '__main__':
-    book_content = BookContent('Numbers', 'he/Tanach with Text Only', ['Rashi on Numbers', 'Rashbam on Numbers'])
+    book_content = BookContent('Numbers', 'he/Tanach with Text Only', ['Rashi on Numbers', 'Rashbam on Numbers'], text_range=(2, 4))
     book_content.populate()
 
-    mg = MikraotGedolotGenerator(book_content, is_demo=False)
+    mg = MikraotGedolotGenerator(book_content, chapter_range=(2, 4))
     tm = TemplateManager('testEzra')
     tm.config_env()
 

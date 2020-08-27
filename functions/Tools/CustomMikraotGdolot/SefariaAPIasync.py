@@ -12,7 +12,7 @@ class Text:
     version = None
     heName = ''
 
-    def __init__(self, name: str, author=None, content=[], comm=None):
+    def __init__(self, name: str, author=None, content=[], text_range=None):
         name = name.split('/')
         self.Name = name[0]
         try:
@@ -22,43 +22,60 @@ class Text:
             pass
         self.Author = author
         self.content = content
-        self.commentary = comm
+        self.range = text_range
 
 
 class SefariaAPIText(Text):
     base_url = 'http://www.sefaria.org/api'
 
-    def __init__(self, name, comm=None, session=None):
-        Text.__init__(self, name, comm=comm)
+    def __init__(self, name, session=None, text_range=None):
+        Text.__init__(self, name, text_range=text_range)
         self.session = session #aiohttp.ClientSession()
 
     async def async_get_text(self):
         params = ''
+        text_key = 'he' if self.language == 'he' else 'text'
         if self.version is not None:
             params = '/{lang}/{ver}'.format(lang=self.language, ver=self.version)
-        req = '{}/texts/{}{}?pad=0'.format(self.base_url, self.Name, params)
-        async with self.session.get(req) as res:
-            book = await res.json()
-            # print('response for {}'.format(req))
+
+        book_content = []
+        if self.range is not None:
+            for i in range(self.range[0], self.range[1]):
+                req = '{}/texts/{}.{}{}?pad=0'.format(self.base_url, self.Name, str(i), params)
+                async with self.session.get(req) as res:
+                    book = await res.json()
+                    book_content.append(book[text_key])
+                    # print('response for: {}'.format(req))
+        else:
+            req = '{}/texts/{}{}?pad=0'.format(self.base_url, self.Name, params)
+            async with self.session.get(req) as res:
+                book = await res.json()
+                book_content = book[text_key]
+                # print('response for: {}'.format(req))
 
         self.heName = book['heIndexTitle']
 
-        text_key = 'he' if self.language == 'he' else 'text'
         try:
-            self.content = book[text_key]
+            self.content = book_content
         except KeyError as e:
             print(book)
 
-    def get_text(self):
-        params = ''
-        if self.version is not None:
-            params = '/{lang}/{ver}'.format(lang=self.language, ver=self.version)
-        req = '{}/texts/{}{}?pad=0'.format(self.base_url, self.Name, params)
-        print(req)
-        res = requests.get(req)
-        book = res.json()
-
-        text_key = 'he' if self.language == 'he' else 'text'
-        self.content = book[text_key]
+    # def get_text(self):
+    #     params = ''
+    #     if self.version is not None:
+    #         params = '/{lang}/{ver}'.format(lang=self.language, ver=self.version)
+    #
+    #     if self.range is not None:
+    #         req = '{}/texts/{}.{}{}'.format(self.base_url, self.Name, str(i), params)
+    #         requests.get
+    #
+    #     else:
+    #         req = '{}/texts/{}{}?pad=0'.format(self.base_url, self.Name, params)
+    #         print(req)
+    #         res = requests.get(req)
+    #         book = res.json()
+    #
+    #     text_key = 'he' if self.language == 'he' else 'text'
+    #     self.content = book[text_key]
 
 
