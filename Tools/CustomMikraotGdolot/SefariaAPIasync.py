@@ -1,8 +1,3 @@
-import asyncio
-import aiohttp
-import requests
-
-
 class Text:
     Name = ''
     Author = None
@@ -59,23 +54,5 @@ class SefariaAPIText(Text):
             self.content = book_content
         except KeyError as e:
             print(book)
-
-    # def get_text(self):
-    #     params = ''
-    #     if self.version is not None:
-    #         params = '/{lang}/{ver}'.format(lang=self.language, ver=self.version)
-    #
-    #     if self.range is not None:
-    #         req = '{}/texts/{}.{}{}'.format(self.base_url, self.Name, str(i), params)
-    #         requests.get
-    #
-    #     else:
-    #         req = '{}/texts/{}{}?pad=0'.format(self.base_url, self.Name, params)
-    #         print(req)
-    #         res = requests.get(req)
-    #         book = res.json()
-    #
-    #     text_key = 'he' if self.language == 'he' else 'text'
-    #     self.content = book[text_key]
 
 

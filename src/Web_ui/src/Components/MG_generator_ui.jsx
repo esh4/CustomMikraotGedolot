@@ -153,14 +153,12 @@ class MG_generator_ui extends React.Component {
                         this.getTranslationOptions(b)
                     }}></ConfirmationDialog>
                     <br />
-                    {/* <p class='form-subtitles'>Select a translation:</p> */}
                     <div class='select'>
                         <Select
                             placeholder="Select a translation..."
                             options={this.state.translationOptions}
                             onChange={t => this.setState({ selectedTranslation: t.value })}></Select>
                     </div>
-                    {/* <p class='form-subtitles'>Select commentators:</p> */}
                     <div class='select'>
                         <Select
                             class='select'
