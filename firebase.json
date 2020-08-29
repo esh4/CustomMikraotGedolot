@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "functions/src/Web_ui/build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

@@ -362,4 +362,13 @@ thumb
 sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,python,node,react
-BackendServer/Tools/CustomMikraotGdolot/generated/
+BackendServer/Tools/CustomMikraotGdolot/generated/*
+
+functions/Tools/CustomMikraotGdolot/generated/
+/rendered_html.html
+functions/Tools/CustomMikraotGdolot/generated/test/pdf/Esther Chapter 1.pdf
+functions/Tools/CustomMikraotGdolot/generated/testEz/html/rendered_html_Ezra.html
+functions/Tools/CustomMikraotGdolot/generated/testEz/html/rendered_html_Genesis.html
+functions/Tools/CustomMikraotGdolot/generated/testEz/pdf/out.pdf
+functions/Tools/CustomMikraotGdolot/generated/testEzra/html/rendered_html.html
+functions/Tools/CustomMikraotGdolot/generated/testEzra/pdf/out.pdf

@@ -64,12 +64,12 @@ app.get('/file/:id', (req, res) => {
         res.sendStatus(504)
         res.send()
     } else {
-        console.log(fileIDs)
+        // console.log(fileIDs)
         fs.access(fileIDs[req.params.id], fs.F_OK, (err) => {
             if (err) {
                 res.sendStatus(404)
                 res.send()
-                console.error(err)
+                // console.error(err)
                 return
             }
             //file exists
