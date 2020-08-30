@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import './MG_generator_ui.css'
-import CommInput from './CommInput'
 import MultiSelect from "react-multi-select-component";
 import ConfirmationDialog from './Dialog'
 import CircularProgress from '@material-ui/core/CircularProgress';
