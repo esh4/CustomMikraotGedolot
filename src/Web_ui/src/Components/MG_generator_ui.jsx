@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import './MG_generator_ui.css'
-import CommInput from './CommInput'
 import MultiSelect from "react-multi-select-component";
 import ConfirmationDialog from './Dialog'
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -153,14 +152,12 @@ class MG_generator_ui extends React.Component {
                         this.getTranslationOptions(b)
                     }}></ConfirmationDialog>
                     <br />
-                    {/* <p class='form-subtitles'>Select a translation:</p> */}
                     <div class='select'>
                         <Select
                             placeholder="Select a translation..."
                             options={this.state.translationOptions}
                             onChange={t => this.setState({ selectedTranslation: t.value })}></Select>
                     </div>
-                    {/* <p class='form-subtitles'>Select commentators:</p> */}
                     <div class='select'>
                         <Select
                             class='select'
