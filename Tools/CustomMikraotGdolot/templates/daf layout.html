@@ -51,7 +51,7 @@
                 <h1> {{com['name']}} </h1>
                 <div class="commentary-text">
                     {% for c in com.text %}
-                    <p class="commentary-text">{{  c  }}</p>
+                    <p class="commentary-text">{{  c | safe }}</p>
                     {% endfor %}
                 </div>
             </div>
