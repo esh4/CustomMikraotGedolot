@@ -4,13 +4,14 @@
     padding: 2em;
 }
 
-/* #bible-radio{
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-evenly;
-    width: 50%;
-} */
+h3{
+    margin-top: 8px;
+    margin-bottom: 8px;;
+}
 
+hr {
+    margin: 0;
+}
 
 .books{
     /* display: flex; */
@@ -22,6 +23,7 @@
     border: khaki;
     border-style: groove;
     border-radius: 1em;
+    text-align: center;
 }
 
 

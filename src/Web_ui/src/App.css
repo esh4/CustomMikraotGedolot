@@ -1,10 +1,10 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .App-header {
   background-color: #282c34;
-  min-height: 10vh;
+  height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,21 +13,60 @@
   color: white;
 }
 
-.info{
-  display: flex;
-  justify-content: space-evenly;
-  width: 100%;
+p {
+  font-size: 16px;;
 }
 
-.instructions{
-  text-align: left;
-  max-width: 50%;
+#instructions{
+  width: 30em;
+  padding: 1em;
 }
 
-#body{
+#instructions h3{
+  color: gray;
+  font-size: 20px;
+}
+
+#page-one{
+  /* height: 80vh; */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+#generator {
+  padding: 1em;
+}
+
+#disclaimer {
+  padding: 1em;
+  width: 30em;
+}
+
+#notes {
+  margin-top: 3em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+
+.bio{
+  width: 30em;
+  padding: 2em;
+}
+
+.profile{
+  display: flex;
+  flex-direction: row;
   align-items: center;
+}
+
+.profile-pic{
+  border-radius: 100%;
+  width: 10em;
+  margin: 1em;
 }
 
 footer{
