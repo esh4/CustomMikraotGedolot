@@ -8,14 +8,14 @@ class BookContent:
     translation = None
     commentary = []
 
-    def __init__(self, book_name, translation_version, commentators, text_range=None):
+    def __init__(self, book_name, translation_version, commentators, text_range=(1, 1000)):
         self.session = aiohttp.ClientSession()
         self.range = text_range
 
         self.book = SefariaAPIText(book_name, session=self.session, text_range=text_range)
 
-        translation_version = re.sub(translation_version, '', '[1-9]+:[1-9]+')
-        self.translation = SefariaAPIText(book_name + '/' + translation_version, session=self.session, text_range=text_range)
+        translation_version = re.sub('[1-9]+:[1-9]+|[1-9]+', '', translation_version)   # remove chapter:verse from ref
+        self.translation = SefariaAPIText(translation_version, session=self.session, text_range=text_range)
         self.commentator_names = commentators
 
     def populate_commentators(self):

@@ -42,7 +42,7 @@
                 <p class="main-text-verse">{{ page.verse }}  </p>
                 <p class="main-text">{{ page.content }}</p>    
             </div>
-            <p class="trans">{{ page.translation }}</p>
+            <p class="trans">{{ page.translation | safe }}</p>
             <div style="clear: both;"></div>
         </section>
         <section class="commentary-section">

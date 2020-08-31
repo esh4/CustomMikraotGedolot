@@ -150,11 +150,12 @@ class TemplateManager:
 
 
 if __name__ == '__main__':
-    book_content = BookContent('Numbers', 'he/Tanach with Text Only', ['Rashi on Numbers', 'Rashbam on Numbers'], text_range=(2, 4))
+    book_content = BookContent('Genesis', 'Onkelos Genesis', ['Rashi on Genesis', 'Kli Yakar on Genesis', 'Riva on Torah, Genesis'],
+                               text_range=(2, 4))
     book_content.populate()
 
     mg = MikraotGedolotGenerator(book_content, chapter_range=(2, 4))
-    tm = TemplateManager('testEzra')
+    tm = TemplateManager('testGen')
     tm.config_env()
 
     data = mg.generate()

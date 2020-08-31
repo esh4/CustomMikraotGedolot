@@ -57,7 +57,7 @@ function App() {
           </div>
           <p>
             Eshel has just finished a gap year program at the Hartman Institute in Jerusalem, and will be drafting to a cyber position in the IDF this fall. He currently lives with his family in Modi'in
-            and is planning on spending a few months doing a Shanna Bet program in the Galile until his draft date. <br />
+            and is planning on spending a few months doing a Shanna Bet program in the Galilee until his draft date. <br />
             Eshel was responsible for the developement of this project. <br />
             Contact Eshel at <a href='mailto: eshel.sinclair@gmail.com'>eshel.sinclair@gmail.com</a>
           </p>

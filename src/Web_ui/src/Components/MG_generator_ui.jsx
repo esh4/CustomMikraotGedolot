@@ -193,9 +193,9 @@ class MG_generator_ui extends React.Component {
                     <br />
                     <input type="submit" value="Generate MG" onClick={() => {
                         this.requestBook()
-                        this.setState({
-                            selected_comm: ''
-                        })
+                        // this.setState({
+                        //     selected_comm: ''
+                        // })
                     }}></input>
                 </div>
                 {this.state.waitingForFile ? <CircularProgress /> :
