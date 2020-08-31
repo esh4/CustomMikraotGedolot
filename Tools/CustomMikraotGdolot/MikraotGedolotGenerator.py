@@ -52,13 +52,9 @@ class MikraotGedolotGenerator:
                 total_com_names = ''.join([j for c in commentry for j in c['name']])
                 total_com = total_com_text + total_com_names
 
-                text_p = self.calculate_pages_per_text(chapter[v_num], 21) + self.calculate_pages_per_text(total_com, 12)
-                try:
-                    text_p += self.calculate_pages_per_text(self.book_content.translation.content[ch_index][v_num], 14)
-                except:
-                    pass
-
-
+                text_p = self.calculate_pages_per_text(chapter[v_num], 21) + \
+                         self.calculate_pages_per_text(self.book_content.translation.content[ch_index][v_num], 14) + \
+                         self.calculate_pages_per_text(total_com, 12)
 
                 # print('verse {} takes {} pages'. format(v_num + 1, text_p))
 
@@ -117,7 +113,8 @@ class MikraotGedolotGenerator:
             'book_info': {
                 'title': self.book_content.book.heName,
                 'comms': self.book_content.commentator_names,
-                'trans': self.book_content.translation.version
+                'trans': self.book_content.translation.version if self.book_content.translation.version is not None
+                else self.book_content.translation.heName
             }
         }
 
@@ -155,12 +152,12 @@ class TemplateManager:
 
 
 if __name__ == '__main__':
-    book_content = BookContent('Leviticus', 'Targum Jerusalem, Leviticus',
+    book_content = BookContent('Leviticus', 'Onkelos Leviticus',
                                ['Rashi on Leviticus'],
-                               text_range=(1, 6))
+                               text_range=(1, 2))
     book_content.populate()
 
-    mg = MikraotGedolotGenerator(book_content, chapter_range=(1, 6))
+    mg = MikraotGedolotGenerator(book_content, chapter_range=(1, 2))
     tm = TemplateManager('testGen')
     tm.config_env()
 

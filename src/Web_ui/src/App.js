@@ -43,7 +43,10 @@ function App() {
           </p>
           <ul>
               <li>Generating a Mikraot Gedolot book for and entire sefer is a long process (due to many calls to the Sefaria API and compiling it into a PDF), therefore this demo is limited to the first 2 chaptesr. </li>
-              <li>JPS Footnotes are currently unsupported.</li>
+              <li>There are some inconsistentcies within the Sefaria API when is comes to referancing texts, specifically commentaries. 
+                JPS Footnotes, Pnei David, as well as Targum Jerusalem are currently unsupported. <br/>
+                For the purpose of this demo, if you see a failure alert - try choosing others options.</li>
+
             </ul>
           <p><a rel="noopener noreferrer" target='_blank' href='https://drive.google.com/drive/folders/1BHK6VQOcy2prSw-vCz7UTTvUmS7AFjSZ?usp=sharing'>Here</a> you can find a few examples that we've precompiled</p>
         </div>

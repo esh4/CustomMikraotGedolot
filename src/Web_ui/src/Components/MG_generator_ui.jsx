@@ -201,7 +201,7 @@ class MG_generator_ui extends React.Component {
                         </Select>
                     </div>
                     <br />
-                    <input type="submit" value="Generate Mikraot Gedolot" onClick={() => {this.requestBook()}}></input>
+                    <input type="submit" value="Generate and Download" onClick={() => {this.requestBook()}}></input>
                 </div>
                 {this.state.waitingForFile ? <CircularProgress /> :
                     <a ref={this.downloadRef} disabled={!this.state.waitingForFile} href={this.state.bookURL} download={this.state.selectedBook + '.pdf'}>Click Here if the download has not begun</a>}
