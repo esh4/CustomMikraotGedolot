@@ -112,7 +112,8 @@ class MikraotGedolotGenerator:
             'book': self.template_content,
             'book_info': {
                 'title': self.book_content.book.heName,
-                'comms': self.book_content.commentator_names
+                'comms': self.book_content.commentator_names,
+                'trans': self.book_content.translation.version
             }
         }
 
@@ -150,11 +151,12 @@ class TemplateManager:
 
 
 if __name__ == '__main__':
-    book_content = BookContent('Genesis', 'Onkelos Genesis', ['Rashi on Genesis', 'Kli Yakar on Genesis', 'Riva on Torah, Genesis'],
-                               text_range=(2, 4))
+    book_content = BookContent('I Kings', 'Targum Jonathan on I Kings 1:3',
+                               ['Rashi on I Kings ', 'Abarbanel on I Kings ', 'Malbim on I Kings'],
+                               text_range=(1, 6))
     book_content.populate()
 
-    mg = MikraotGedolotGenerator(book_content, chapter_range=(2, 4))
+    mg = MikraotGedolotGenerator(book_content, chapter_range=(1, 6))
     tm = TemplateManager('testGen')
     tm.config_env()
 

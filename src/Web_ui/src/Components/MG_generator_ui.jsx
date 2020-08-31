@@ -31,6 +31,7 @@ class MG_generator_ui extends React.Component {
 
         this.getCommsForBook(this.state.selectedBook)
         this.getTranslationOptions(this.state.selectedBook)
+        this.downloadRef = React.createRef()
     }
 
     listBibleBooks() {
@@ -57,10 +58,10 @@ class MG_generator_ui extends React.Component {
     }
 
     getCommsForBook(book) {
-        axios.get(this.baseAPIurl + 'links/' + book + '.1.2').then(res => res.data)
+        axios.get(this.baseAPIurl + 'links/' + book + '.1?with_text=0').then(res => res.data)
             .then(data => {
                 return data.filter(o => {
-                    return o.type.toLowerCase() == 'commentary';
+                    return o.type.toLowerCase() == 'commentary' && o.category.toLowerCase() == 'commentary';
                 })
             })
             .then(data => {
@@ -140,6 +141,7 @@ class MG_generator_ui extends React.Component {
                                     bookURL: blobUrl,
                                     waitingForFile: false
                                 })
+                                this.downloadRef.current.click()
                                 clearInterval(this.intervalID);
                             }
                         })
@@ -191,15 +193,10 @@ class MG_generator_ui extends React.Component {
                         </Select>
                     </div>
                     <br />
-                    <input type="submit" value="Generate MG" onClick={() => {
-                        this.requestBook()
-                        // this.setState({
-                        //     selected_comm: ''
-                        // })
-                    }}></input>
+                    <input type="submit" value="Generate Mikraot Gedolot" onClick={() => {this.requestBook()}}></input>
                 </div>
                 {this.state.waitingForFile ? <CircularProgress /> :
-                    <a disabled={!this.state.waitingForFile} href={this.state.bookURL} download={this.state.selectedBook + '.pdf'}>Click here to download the book</a>}
+                    <a ref={this.downloadRef} disabled={!this.state.waitingForFile} href={this.state.bookURL} download={this.state.selectedBook + '.pdf'}>Click Here if the download has not begun</a>}
 
                 {this.state.alert ? <AlertDialog message={"Currently, JPS footnotes are unsupported. If you are not using JPS footnotes please contact the developers."}></AlertDialog> : <></>}
             </div>

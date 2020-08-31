@@ -14,7 +14,7 @@ class BookContent:
 
         self.book = SefariaAPIText(book_name, session=self.session, text_range=text_range)
 
-        translation_version = re.sub('[1-9]+:[1-9]+|[1-9]+', '', translation_version)   # remove chapter:verse from ref
+        translation_version = re.sub('[1-9]+:[1-9]+|[1-9]+', '', translation_version, count=1)   # remove chapter:verse from ref
         self.translation = SefariaAPIText(translation_version, session=self.session, text_range=text_range)
         self.commentator_names = commentators
 
