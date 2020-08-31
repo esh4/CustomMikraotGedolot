@@ -25,7 +25,7 @@ class SefariaAPIText(Text):
 
     def __init__(self, name, session=None, text_range=None):
         Text.__init__(self, name, text_range=text_range)
-        self.session = session #aiohttp.ClientSession()
+        self.session = session
 
     async def async_get_text(self):
         params = ''

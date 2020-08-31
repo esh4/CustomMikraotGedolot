@@ -86,12 +86,12 @@ class MG_generator_ui extends React.Component {
     }
 
     getTranslationOptions(book) {
-        axios.get(this.baseAPIurl + 'texts/' + book).then(res => res.data.versions)
+        axios.get(this.baseAPIurl + 'texts/' + book + '.1.3?pad=0').then(res => res.data)
             .then(t => {
-                return t.map(o => {
+                return t.versions.map(o => {
                     var newObj = {
                         label: o.versionTitle,
-                        value: o.ref + '/' + o.language + '/' + o.versionTitle,
+                        value: t.ref + '/' + o.language + '/' + o.versionTitle,
                         disabled: false
                     };
                     return newObj;

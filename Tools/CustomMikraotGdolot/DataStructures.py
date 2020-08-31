@@ -1,5 +1,6 @@
 from SefariaAPIasync import SefariaAPIText
 import asyncio, aiohttp
+import re
 
 
 class BookContent:
@@ -12,6 +13,8 @@ class BookContent:
         self.range = text_range
 
         self.book = SefariaAPIText(book_name, session=self.session, text_range=text_range)
+
+        translation_version = re.sub(translation_version, '', '[1-9]+:[1-9]+')
         self.translation = SefariaAPIText(book_name + '/' + translation_version, session=self.session, text_range=text_range)
         self.commentator_names = commentators
 
