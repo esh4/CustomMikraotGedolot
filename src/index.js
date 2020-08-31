@@ -48,7 +48,7 @@ app.post('/generate', (req, res) => {
     });
     python.stderr.on('data', (data) => {
         console.log(`stderr: ${data}`);
-        fileIDs[id] = 504
+        fileIDs[id] = 520
         fs.writeFile('Tools/CustomMikraotGdolot/generated/file_ids.json', JSON.stringify(fileIDs), err => console.log(err))
 
     });
@@ -64,8 +64,8 @@ app.post('/generate', (req, res) => {
 
 app.get('/file/:id', (req, res) => {
     fileIDs = JSON.parse(fs.readFileSync('Tools/CustomMikraotGdolot/generated/file_ids.json'))
-    if (fileIDs[req.params.id] == 504) {
-        res.sendStatus(504)
+    if (fileIDs[req.params.id] == 520) {
+        res.sendStatus(520)
         res.send()
     } else {
         // console.log(fileIDs)

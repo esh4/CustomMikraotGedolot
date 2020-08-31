@@ -149,10 +149,13 @@ class MG_generator_ui extends React.Component {
                                 }
                                 clearInterval(this.intervalID);
                             }
+                            console.log(res.status)
                         })
                         .catch(err => {
-                            if (err.status == 504) {
-                                this.setState({ alert: true })
+                            console.log(err.response)
+                            if (err.response.status == 520) {
+                                console.log('MG failed')
+                                this.setState({ alert: true, waitingForFile:false })
                                 clearInterval(this.intervalID);
                             }
                         })
@@ -203,7 +206,7 @@ class MG_generator_ui extends React.Component {
                 {this.state.waitingForFile ? <CircularProgress /> :
                     <a ref={this.downloadRef} disabled={!this.state.waitingForFile} href={this.state.bookURL} download={this.state.selectedBook + '.pdf'}>Click Here if the download has not begun</a>}
 
-                {this.state.alert ? <AlertDialog message={"Currently, JPS footnotes are unsupported. If you are not using JPS footnotes please contact the developers."}></AlertDialog> : <></>}
+                {this.state.alert ? <AlertDialog message={"Generating the requested document failed. There are some issues with specific targumim, so try something else for now. "}></AlertDialog> : <></>}
             </div>
         )
     }

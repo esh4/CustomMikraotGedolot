@@ -52,9 +52,13 @@ class MikraotGedolotGenerator:
                 total_com_names = ''.join([j for c in commentry for j in c['name']])
                 total_com = total_com_text + total_com_names
 
-                text_p = self.calculate_pages_per_text(chapter[v_num], 21) + \
-                         self.calculate_pages_per_text(self.book_content.translation.content[ch_index][v_num], 14) + \
-                         self.calculate_pages_per_text(total_com, 12)
+                text_p = self.calculate_pages_per_text(chapter[v_num], 21) + self.calculate_pages_per_text(total_com, 12)
+                try:
+                    text_p += self.calculate_pages_per_text(self.book_content.translation.content[ch_index][v_num], 14)
+                except:
+                    pass
+
+
 
                 # print('verse {} takes {} pages'. format(v_num + 1, text_p))
 
@@ -151,8 +155,8 @@ class TemplateManager:
 
 
 if __name__ == '__main__':
-    book_content = BookContent('I Kings', 'Targum Jonathan on I Kings 1:3',
-                               ['Rashi on I Kings ', 'Abarbanel on I Kings ', 'Malbim on I Kings'],
+    book_content = BookContent('Leviticus', 'Targum Jerusalem, Leviticus',
+                               ['Rashi on Leviticus'],
                                text_range=(1, 6))
     book_content.populate()
 
