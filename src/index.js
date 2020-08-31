@@ -9,7 +9,7 @@ const bodyParser = require("body-parser");
 const { join } = require('path');
 const path = require('path')
 const app = express()
-const port = 3002
+const port = 80
 
 app.use(cors({origin: true}))
 app.use(bodyParser.urlencoded({ extended: false }));
