@@ -1,6 +1,3 @@
-const functions = require('firebase-functions');
-var admin = require("firebase-admin");
-
 const express = require('express')
 const fs = require('fs')
 var cors = require('cors')
@@ -8,8 +5,11 @@ const { spawn } = require('child_process');
 const bodyParser = require("body-parser");
 const { join } = require('path');
 const path = require('path')
+var process = require('process');
+
 const app = express()
 const port = 3002
+
 
 app.use(cors({origin: true}))
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -80,7 +80,7 @@ app.get('/file/:id', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`Custom Mikraot Gedolot listening at http://localhost:${port}`)
 })
 
-exports.app = functions.https.onRequest(app);
+// exports.app = functions.https.onRequest(app);
