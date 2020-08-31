@@ -120,6 +120,7 @@ class MG_generator_ui extends React.Component {
     }
 
     requestBook() {
+        this.setState({downloaded: false})
         clearInterval(this.intervalID)
         axios.post(this.generatorServerBaseAPIurl + 'generate',
             {
