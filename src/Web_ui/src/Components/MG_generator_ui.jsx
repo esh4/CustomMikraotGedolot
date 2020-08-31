@@ -26,7 +26,7 @@ class MG_generator_ui extends React.Component {
             alert: false
         };
         this.baseAPIurl = 'https://www.sefaria.org.il/api/';
-        this.generatorServerBaseAPIurl = 'http://ec2-3-134-87-226.us-east-2.compute.amazonaws.com:3002/';
+        this.generatorServerBaseAPIurl = 'http://localhost:3002/';
 
         this.getCommsForBook(this.state.selectedBook)
         this.getTranslationOptions(this.state.selectedBook)
