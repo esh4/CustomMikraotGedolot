@@ -1,11 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import './MG_generator_ui.css'
-import MultiSelect from "react-multi-select-component";
+// import MultiSelect from "react-multi-select-component";
 import ConfirmationDialog from './Dialog'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Card from '@material-ui/core/Card';
-import { Dialog } from '@material-ui/core';
+// import Card from '@material-ui/core/Card';
+// import { Dialog } from '@material-ui/core';
 import AlertDialog from './AlertDialog';
 import Select from 'react-select'
 
@@ -21,6 +21,7 @@ class MG_generator_ui extends React.Component {
                 books: ['Genesis']
             }],
             translationOptions: {},
+            targumOptions: {},
             selectedTranslation: 'default',
             waitingForFile: false,
             alert: false
@@ -44,8 +45,7 @@ class MG_generator_ui extends React.Component {
                 for (var i = 0; i < 3; i++) {
                     var subBookOption = [];
                     for (var j = 0; j < (data[i].contents).length; j++) {
-                        var a =
-                            subBookOption.push((data[i].contents)[j].title)
+                        subBookOption.push((data[i].contents)[j].title)
                     }
                     bookOptions.push({
                         books: subBookOption,
@@ -91,13 +91,26 @@ class MG_generator_ui extends React.Component {
                 return t.map(o => {
                     var newObj = {
                         label: o.versionTitle,
-                        value: o.language + '/' + o.versionTitle,
+                        value: o.ref + '/' + o.language + '/' + o.versionTitle,
                         disabled: false
                     };
                     return newObj;
                 });
+            }).then(trans => this.setState({ translationOptions: trans }));
+
+        axios.get(this.baseAPIurl + 'links/' + book + '.1.3?with_text=0').then(res => res.data)
+            .then(data => data.filter(o => o.type.toLowerCase() == 'targum'))
+            .then(t => {
+                return t.map(o => {
+                    var newObj = {
+                        label: o.index_title,
+                        value: o.ref,
+                        disabled: false
+                    };
+                    return newObj;
+                })
             })
-            .then(trans => this.setState({ translationOptions: trans }))
+            .then(data => this.setState({ targumOptions: data }))
     }
 
     componentDidMount() {
@@ -155,7 +168,16 @@ class MG_generator_ui extends React.Component {
                     <div class='select'>
                         <Select
                             placeholder="Select a translation..."
-                            options={this.state.translationOptions}
+                            options={
+                                [{
+                                    label: 'Targumim',
+                                    options: this.state.targumOptions
+                                },
+                                {
+                                    label: 'Text versions',
+                                    options: this.state.translationOptions
+                                }]
+                            }
                             onChange={t => this.setState({ selectedTranslation: t.value })}></Select>
                     </div>
                     <div class='select'>
