@@ -137,11 +137,13 @@ class MG_generator_ui extends React.Component {
                                     type: 'application/pdf'
                                 });
                                 var blobUrl = URL.createObjectURL(myBlob);
+                                if (this.state.waitingForFile){
+                                    this.downloadRef.current.click()
+                                }
                                 this.setState({
                                     bookURL: blobUrl,
                                     waitingForFile: false
                                 })
-                                this.downloadRef.current.click()
                                 clearInterval(this.intervalID);
                             }
                         })
