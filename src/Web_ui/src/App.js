@@ -77,6 +77,7 @@ function App() {
         <p>
           This project uses the non-commercial version of Prince <a rel="noopener noreferrer" target="_blank" href="https://www.princexml.com">www.princexml.com</a>
         </p>
+        <p>You can check out this projects' code on GitHub <a rel="noopener noreferrer" target="_blank" href='https://github.com/esh4/CustomMikraotGedolot'>here</a></p>
       </footer>
     </div>
   );
