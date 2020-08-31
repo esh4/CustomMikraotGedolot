@@ -42,7 +42,7 @@ function App() {
             
           </p>
           <ul>
-              <li>Generating a Mikraot Gedolot book for and entire sefer is a long process (can take up to an hour due to many calls to the Sefaria API and compiling it into a PDF), therefore this demo is limited to the first 5 verses. I plan to implement better concurrency so that the process takes substancially less time in the future. </li>
+              <li>Generating a Mikraot Gedolot book for and entire sefer is a long process (due to many calls to the Sefaria API and compiling it into a PDF), therefore this demo is limited to the first 2 chaptesr. </li>
               <li>JPS Footnotes are currently unsupported.</li>
             </ul>
           <p><a rel="noopener noreferrer" target='_blank' href='https://drive.google.com/drive/folders/1BHK6VQOcy2prSw-vCz7UTTvUmS7AFjSZ?usp=sharing'>Here</a> you can find a few examples that we've precompiled</p>
