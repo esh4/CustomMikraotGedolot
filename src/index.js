@@ -33,7 +33,6 @@ app.post('/generate', (req, res) => {
     var id = Math.round(Math.random() * 2048)
     fileIDs[id] = join('Tools/CustomMikraotGdolot/generated/', id.toString(), '/pdf/out.pdf')
 
-    fs.writeFile('Tools/CustomMikraotGdolot/generated/file_ids.json', JSON.stringify(fileIDs), err => console.log(err))
 
     // console.log(fileIDs[id])
     var args = ['Tools/CustomMikraotGdolot/GeneratePage_cli.py', '-b', book, '-t', trans, '--out', id, '-c']
@@ -49,7 +48,12 @@ app.post('/generate', (req, res) => {
     });
     python.stderr.on('data', (data) => {
         console.log(`stderr: ${data}`);
+        fileIDs[id] = 504
+        fs.writeFile('Tools/CustomMikraotGdolot/generated/file_ids.json', JSON.stringify(fileIDs), err => console.log(err))
+
     });
+
+    fs.writeFile('Tools/CustomMikraotGdolot/generated/file_ids.json', JSON.stringify(fileIDs), err => console.log(err))
 
     python.on('exit', c => {
 

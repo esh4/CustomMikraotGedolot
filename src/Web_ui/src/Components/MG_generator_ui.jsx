@@ -24,7 +24,8 @@ class MG_generator_ui extends React.Component {
             targumOptions: {},
             selectedTranslation: 'default',
             waitingForFile: false,
-            alert: false
+            alert: false,
+            downloaded: false
         };
         this.baseAPIurl = 'https://www.sefaria.org.il/api/';
         this.generatorServerBaseAPIurl = 'http://ec2-3-129-165-55.us-east-2.compute.amazonaws.com:3002/';
@@ -137,13 +138,15 @@ class MG_generator_ui extends React.Component {
                                     type: 'application/pdf'
                                 });
                                 var blobUrl = URL.createObjectURL(myBlob);
-                                if (this.state.waitingForFile){
-                                    this.downloadRef.current.click()
-                                }
                                 this.setState({
                                     bookURL: blobUrl,
                                     waitingForFile: false
                                 })
+                                if (!this.state.downloaded)
+                                {
+                                    this.downloadRef.current.click()
+                                    this.setState({downloaded: true})
+                                }
                                 clearInterval(this.intervalID);
                             }
                         })
