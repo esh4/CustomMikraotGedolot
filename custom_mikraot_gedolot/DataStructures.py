@@ -1,6 +1,8 @@
-from SefariaAPIasync import SefariaAPIText
-import asyncio, aiohttp
+import asyncio
 import re
+
+import aiohttp
+from SefariaAPIasync import SefariaAPIText
 
 
 class BookContent:

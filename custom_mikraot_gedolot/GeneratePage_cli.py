@@ -1,7 +1,8 @@
-import os
 import argparse
-from MikraotGedolotGenerator import MikraotGedolotGenerator, TemplateManager
+import os
+
 from DataStructures import BookContent
+from MikraotGedolotGenerator import MikraotGedolotGenerator, TemplateManager
 
 
 def StrRange(s: str):
