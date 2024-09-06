@@ -5,17 +5,17 @@ from DataStructures import BookContent
 
 
 def StrRange(s: str):
-    i = s.strip(')(').split(', ')
+    i = s.strip(")(").split(", ")
     return int(i[0]), int(i[1]) + 1
 
 
 def get_arguments():
     arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument('-b', type=str)
-    arg_parser.add_argument('--out', type=str, required=True)
-    arg_parser.add_argument('-t', type=str, required=False)
-    arg_parser.add_argument('-c', type=str, nargs='+')
-    arg_parser.add_argument('--range', type=StrRange)
+    arg_parser.add_argument("-b", type=str)
+    arg_parser.add_argument("--out", type=str, required=True)
+    arg_parser.add_argument("-t", type=str, required=False)
+    arg_parser.add_argument("-c", type=str, nargs="+")
+    arg_parser.add_argument("--range", type=StrRange)
 
     args = arg_parser.parse_args()
 
