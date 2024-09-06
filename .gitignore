@@ -9,6 +9,8 @@ node_modules/
 
 *.log
 
+venv/
+
 # Project specific
 # TODO: remove this abomonation
 
