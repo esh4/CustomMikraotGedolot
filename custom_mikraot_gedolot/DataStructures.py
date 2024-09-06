@@ -8,14 +8,22 @@ class BookContent:
     translation = None
     commentary = []
 
-    def __init__(self, book_name, translation_version, commentators, text_range=(1, 1000)):
+    def __init__(
+        self, book_name, translation_version, commentators, text_range=(1, 1000)
+    ):
         self.session = aiohttp.ClientSession()
         self.range = text_range
 
-        self.book = SefariaAPIText(book_name, session=self.session, text_range=text_range)
+        self.book = SefariaAPIText(
+            book_name, session=self.session, text_range=text_range
+        )
 
-        translation_version = re.sub('[1-9]+:[1-9]+|[1-9]+', '', translation_version, count=1)   # remove chapter:verse from ref
-        self.translation = SefariaAPIText(translation_version, session=self.session, text_range=text_range)
+        translation_version = re.sub(
+            "[1-9]+:[1-9]+|[1-9]+", "", translation_version, count=1
+        )  # remove chapter:verse from ref
+        self.translation = SefariaAPIText(
+            translation_version, session=self.session, text_range=text_range
+        )
         self.commentator_names = commentators
 
     def populate_commentators(self):
@@ -25,7 +33,12 @@ class BookContent:
             for verse in range(len(self.book.content[chapter])):
                 comms_for_verse = []
                 for comm in self.commentator_names:
-                    comms_for_verse.append(SefariaAPIText('{}.{}.{}'.format(comm, chapter + self.range[0], verse + 1), session=self.session))
+                    comms_for_verse.append(
+                        SefariaAPIText(
+                            "{}.{}.{}".format(comm, chapter + self.range[0], verse + 1),
+                            session=self.session,
+                        )
+                    )
                 comms_for_chapter.append(comms_for_verse)
             self.commentary.append(comms_for_chapter)
 
@@ -47,6 +60,10 @@ class BookContent:
         loop.run_until_complete(self.session.close())
 
 
-if __name__ == '__main__':
-    book = BookContent('Genesis', 'en/Bible du Rabbinat 1899 [fr]', commentators=['Rashi on Genesis', 'Malbim on Genesis'])
+if __name__ == "__main__":
+    book = BookContent(
+        "Genesis",
+        "en/Bible du Rabbinat 1899 [fr]",
+        commentators=["Rashi on Genesis", "Malbim on Genesis"],
+    )
     book.populate()
