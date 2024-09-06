@@ -4,4 +4,4 @@ version = "0.0.1"
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["black"]
+dev = ["black", "isort"]

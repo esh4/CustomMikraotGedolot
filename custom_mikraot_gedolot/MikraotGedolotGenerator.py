@@ -1,7 +1,8 @@
 import os
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 import subprocess
+
 from DataStructures import BookContent
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 class MikraotGedolotGenerator:
